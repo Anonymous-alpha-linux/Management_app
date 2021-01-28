@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Management_app.Models.ApplicationUser>
+@{
+    ViewBag.Title = "TrainerAccountView";
+}
+
+<h2>TrainerAccountView</h2>
+<br />
+@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+<br />
+<table>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Email</td>
+                <td>@item.PasswordHash</td>
+            </tr>
+        }
+    </tbody>
+</table>
