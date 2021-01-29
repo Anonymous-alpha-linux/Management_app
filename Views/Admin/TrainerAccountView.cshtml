@@ -5,7 +5,7 @@
 
 <h2>TrainerAccountView</h2>
 <br />
-@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+@Html.ActionLink("Create new user", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
 <br />
 <table class="table">
     <thead>
@@ -21,7 +21,7 @@
         {
         <tr>
             <td scope="row">@item.Id</td>
-            <td scope="rpw">@item.UserName</td>
+            <td scope="row">@item.UserName</td>
             <td scope="row">@item.Email</td>
             <td scope="row">@item.PasswordHash</td>
         </tr>
