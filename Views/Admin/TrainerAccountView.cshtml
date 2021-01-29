@@ -7,21 +7,24 @@
 <br />
 @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
 <br />
-<table>
+<table class="table">
     <thead>
         <tr>
-            <th>Email</th>
-            <th>Password</th>
+            <th scope="col">#</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Email</td>
-                <td>@item.PasswordHash</td>
-            </tr>
+        <tr>
+            <td scope="row">@item.Id</td>
+            <td scope="rpw">@item.UserName</td>
+            <td scope="row">@item.Email</td>
+            <td scope="row">@item.PasswordHash</td>
+        </tr>
         }
     </tbody>
 </table>

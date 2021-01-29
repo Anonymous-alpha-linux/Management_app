@@ -1,4 +1,6 @@
-﻿@model Management_app.Models.RegisterViewModel
+﻿@using Management_app.Models
+@model Management_app.Models.RegisterViewModel
+
 @{
     ViewBag.Title = "Register";
 }
@@ -27,6 +29,12 @@
         @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m=> m.Role,new SelectList(ViewBag.list),"Select Role", new { @class = "form-control" })   
         </div>
     </div>
     <div class="form-group">

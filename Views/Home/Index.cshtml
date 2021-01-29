@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Management_app.Models.ApplicationUser
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -11,27 +12,31 @@
             </h1>
         </div>
     </div>
-    <p>User is not Logged in</p>
+    foreach (var item in Model.Roles)
+    {
+        <p>@item.UserId</p>
+        <p>@item.RoleId</p>
+    }
 }
-@if (User.IsInRole("user"))
-{
-    <h1>Welcome User</h1>
-}
-@if (User.IsInRole("admin"))
-{
-    <h1>Welcome Admin</h1>
-}
-@if (User.IsInRole("staff"))
-{
-    <h1>Welcome Training Staff</h1>
-}
-@if (User.IsInRole("trainer"))
-{
-    <h1>Welcome Trainer</h1>
-}
-@if (User.IsInRole("trainee"))
-{
-    <h1>Welcome Trainee</h1>
-}
+    @if (User.IsInRole("user"))
+    {
+        <h1>Welcome User</h1>
+    }
+    @if (User.IsInRole("admin"))
+    {
+        <h1>Welcome Admin</h1>
+    }
+    @if (User.IsInRole("staff"))
+    {
+        <h1>Welcome Training Staff</h1>
+    }
+    @if (User.IsInRole("trainer"))
+    {
+        <h1>Welcome Trainer</h1>
+    }
+    @if (User.IsInRole("trainee"))
+    {
+        <h1>Welcome Trainee</h1>
+    }
 
 

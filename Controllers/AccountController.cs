@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Management_app.Models;
+using System.Security.AccessControl;
+using System.Collections.Generic;
 
 namespace Management_app.Controllers
 {
@@ -17,9 +19,11 @@ namespace Management_app.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _applicationDbContext;
 
         public AccountController()
         {
+            _applicationDbContext = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -139,6 +143,8 @@ namespace Management_app.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var list = new List<string>() { "admin", "staff", "trainer", "trainee" };
+            ViewBag.list = list;
             return View();
         }
 
@@ -151,12 +157,16 @@ namespace Management_app.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+    
+
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    result = await UserManager.AddToRoleAsync(user.Id, model.Role);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -165,9 +175,10 @@ namespace Management_app.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+                var list = new List<string>() { "admin", "staff", "trainer", "trainee" };
+                ViewBag.list = list;
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

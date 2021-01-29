@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
+using System.Security.Policy;
+using System.Web.Security;
 
 namespace Management_app.Models
 {
@@ -79,6 +83,9 @@ namespace Management_app.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
     }
 
     public class ResetPasswordViewModel
