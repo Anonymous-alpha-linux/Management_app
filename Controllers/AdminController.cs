@@ -12,16 +12,17 @@ using Management_app.ViewModels.AdminViewModels;
 using System.Web.Security;
 using System.Data.Entity;
 using System;
+using System.Text;
 
 namespace Management_app.Controllers
 {
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        ApplicationDbContext _context;
-        ApplicationUser _user;
-        UserManager<ApplicationUser> _userManager;
-        ApplicationUserManager _applicationUserManger;
+        private ApplicationDbContext _context;
+        private ApplicationUser _user;
+        private UserManager<ApplicationUser> _userManager;
+        private ApplicationUserManager _applicationUserManger;
 
         public AdminController()
         { 
@@ -108,17 +109,15 @@ namespace Management_app.Controllers
         /// <param name="registerViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult EditStaffAccount(string id, RegisterViewModel registerViewModel)
+        public ActionResult EditStaffAccount(RegisterViewModel registerViewModel)
         {
+            var edit_infor = _context.Users.SingleOrDefault(t => t.Email == registerViewModel.Email);
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(registerViewModel);
             }
-            var edit_infor = _context.Users.SingleOrDefault(t => t.Id == id);
-            edit_infor.Email = registerViewModel.Email;
-            edit_infor.PasswordHash = registerViewModel.Password;
-            edit_infor.Role = registerViewModel.Role;
-            _userManager.RemoveFromRole(edit_infor.Id, _userManager.GetRoles(edit_infor.Id)[0]);
+            _userManager.RemovePassword(edit_infor.Id);
+            _userManager.AddPasswordAsync(edit_infor.Id,registerViewModel.Password);
             _context.SaveChanges();
 
             return RedirectToAction("StaffAccountView");
@@ -155,20 +154,16 @@ namespace Management_app.Controllers
         /// <param name="id"></param>
         /// <param name="registerViewModel"></param>
         [HttpPost]
-        public ActionResult EditTrainerfAccount(string id, RegisterViewModel registerViewModel)
-        {
+        public ActionResult EditTrainerfAccount(RegisterViewModel registerViewModel)
+        { 
+            var edit_infor = _context.Users.SingleOrDefault(t => t.Email == registerViewModel.Email);
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(registerViewModel);
             }
-
-            var edit_infor = _context.Users.SingleOrDefault(t =>t.Id == id);
-            edit_infor.Email = registerViewModel.Email;
-            edit_infor.PasswordHash = registerViewModel.Password;
-            edit_infor.Role = registerViewModel.Role;
-            _userManager.RemoveFromRole(edit_infor.Id, _userManager.GetRoles(edit_infor.Id)[0]);
+            _userManager.RemovePassword(edit_infor.Id);
+            _userManager.AddPasswordAsync(edit_infor.Id, registerViewModel.Password);
             _context.SaveChanges();
-
             return RedirectToAction("TrainerAccountView");
         }
     }

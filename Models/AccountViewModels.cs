@@ -68,7 +68,7 @@ namespace Management_app.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -83,7 +83,6 @@ namespace Management_app.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-        [Required]
         [Display(Name = "Role")]
         public string Role { get; set; }
     }

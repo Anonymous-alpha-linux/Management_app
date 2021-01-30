@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using Management_app.Models;
 using System.Security.AccessControl;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Security;
 
 namespace Management_app.Controllers
 {
@@ -26,7 +28,7 @@ namespace Management_app.Controllers
             _applicationDbContext = new ApplicationDbContext();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -38,9 +40,9 @@ namespace Management_app.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -124,7 +126,7 @@ namespace Management_app.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -140,10 +142,10 @@ namespace Management_app.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "admin,staff")]
         public ActionResult Register()
         {
-            var list = new List<string>() { "admin", "staff", "trainer", "trainee" };
+            var list = new List<string>() { "staff", "trainer" };
             ViewBag.list = list;
             return View();
         }
@@ -151,7 +153,7 @@ namespace Management_app.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles ="admin,staff")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -160,11 +162,11 @@ namespace Management_app.Controllers
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-    
 
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddToRoleAsync(user.Id, model.Role);
+                    user.Role = model.Role;
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -174,7 +176,7 @@ namespace Management_app.Controllers
                     
                     return user.Roles.Single().ToString() == "staff"?RedirectToAction("StaffAccountView","Admin") : RedirectToAction("TrainerAccountView","Admin");
                 }
-                var list = new List<string>() { "admin", "staff", "trainer", "trainee" };
+                var list = new List<string>() { "staff", "trainer" };
                 ViewBag.list = list;
                 AddErrors(result);
             }
