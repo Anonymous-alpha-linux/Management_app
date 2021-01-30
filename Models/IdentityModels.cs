@@ -25,6 +25,9 @@ namespace Management_app.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseCategory> Categories { get; set; }
+        public DbSet<CourseandCategory> CourseandCategories { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
