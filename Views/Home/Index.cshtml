@@ -12,11 +12,6 @@
             </h1>
         </div>
     </div>
-    foreach (var item in Model.Roles)
-    {
-        <p>@item.UserId</p>
-        <p>@item.RoleId</p>
-    }
 }
     @if (User.IsInRole("user"))
     {
