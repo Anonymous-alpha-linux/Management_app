@@ -1,0 +1,37 @@
+﻿@model WebApplication.Models.ApplicationUser
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (!Request.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <h1>
+                Welcome to our Management Application
+            </h1>
+        </div>
+    </div>
+}
+@if (User.IsInRole("user"))
+{
+    <h1>Welcome User</h1>
+}
+@if (User.IsInRole("admin"))
+{
+    <h1>Welcome Admin</h1>
+}
+@if (User.IsInRole("staff"))
+{
+    <h1>Welcome Training Staff</h1>
+}
+@if (User.IsInRole("trainer"))
+{
+    <h1>Welcome Trainer</h1>
+}
+@if (User.IsInRole("trainee"))
+{
+    <h1>Welcome Trainee</h1>
+}
+
+

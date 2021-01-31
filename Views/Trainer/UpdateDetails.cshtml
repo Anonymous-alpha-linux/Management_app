@@ -1,0 +1,56 @@
+﻿@model WebApplication.ViewModels.TrainerViewModel.TrainerViewModel
+@{
+    ViewBag.Title = "UpdateDetails";
+}
+
+<h2>Update Detail</h2>
+
+@using (Html.BeginForm("UpdateDetails", "Trainer", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Education, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Education, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Address, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Phone, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Update" />
+        </div>
+    </div>
+}
