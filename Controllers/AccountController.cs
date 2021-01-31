@@ -141,7 +141,7 @@ namespace Management_app.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Account/
         [Authorize(Roles = "admin,staff")]
         public ActionResult Register()
         {
